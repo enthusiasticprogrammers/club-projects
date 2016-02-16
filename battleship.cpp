@@ -13,9 +13,9 @@ public:
 	void setupBoard();
 	void choice(int &choice, int &choice2);
 	void shipFill(int &randomX, int &randomY);
-	bool hit(int &choice, int&choice2); 
+	bool hit(int &choice, int&choice2);
 private:
-	std::string arr[MAX][MAX];
+	char arr[MAX][MAX];
 	int hits;
 	int misses;
 	static const char marker = 'x';
@@ -23,14 +23,14 @@ private:
 };
 void BattleShip::setupBoard()
 {
-	char row = 65;
+	/*char row = 65;
 
 	for (size_t x = 0; x < len; ++x)
 	{
 		if (x == 0)
 			std::cout << "|";
 		std::cout << " " << x + 1;
-		
+
 		std::cout << std::endl;
 		std::cout << "--|" << std::setw(10) << std::setfill('-');
 
@@ -38,12 +38,12 @@ void BattleShip::setupBoard()
 
 		std::cout << static_cast<char>(row + x) << "|" << std::setw(10) << "|" << std::endl;
 
-	}
+	}*/
 
 	/*******************
 
 
-	  |1 2 3 4 5 6 7 8 9 10
+	|1 2 3 4 5 6 7 8 9 10
 	--|--------------------
 	A |
 	B |
@@ -51,7 +51,7 @@ void BattleShip::setupBoard()
 	D |
 	E |
 	F |
-	
+
 	*********************/
 
 
@@ -59,39 +59,55 @@ void BattleShip::setupBoard()
 }
 void BattleShip::shipFill(int &randomX, int &randomY)
 {
-	srand(static_cast<int>(time(0)));
 
-	 randomX = rand() % 10 + 1;
-	 randomY = rand() % 10 + 1;
+	randomX = rand() % 10;  // 0 - 9
+	randomY = rand() % 10;
 
-	arr[randomX][randomY] = "Ship is here.";
+	arr[randomX][randomY] = 'X';
 
 }
 void BattleShip::choice(int &choice, int &choice2)
 {
 
 	std::cout << "Enter coordinates to hit: " << std::endl;
-	std::cin >> choice >> choice2; 
+	std::cin >> choice >> choice2;
 
 	//return choice;
 }
 bool BattleShip::hit(int &choice, int &choice2)
 {
-	if (arr[choice][choice2] == "Ship is here.")
+	choice = rand() % 10;  // 0 - 9
+	choice2 = rand() % 10;
+
+	if (arr[choice][choice2] == 'X')
 		return true;
 
 	return false;
 }
-void main(int argc, int *argv[])
+void main(int argc, char **argv)
 {
+	srand(static_cast<int>(time(0)));
 
 	int randomX, randomY;
 
 	BattleShip game;
 
-	game.shipFill(randomX, randomY);
+	for (int x = 0; x < MAX; ++x)
+	{
+		game.shipFill(randomX, randomY);
+	}
+
+	for (int i = 0; i < MAX; ++i)
+	{
+		//std::cout << "Ship placed on " << randomX << " x  " << randomY << std::endl;
+		if (game.hit(randomX, randomY))
+			std::cout << "Ship has been hit on " << randomX << " " << randomY << std::endl;
+		else
+			std::cout << "No Hit! on " << randomX << " " << randomY << std::endl;
+	}
+	
+	
 	game.setupBoard();
 }
 
- 
 
